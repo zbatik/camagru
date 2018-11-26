@@ -6,5 +6,8 @@
     <title>Camagru</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="css/w3.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/style.css" />
+
 </head>
 <body>
+<?php require_once("navbar.php"); ?>

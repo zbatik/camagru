@@ -6,7 +6,7 @@ $p = new Element("p");
 $p->print_html();
 
 # class and id p tag
-$p = new Element("p", "some text", "class_name", "id_tag");
+$p = new Element("p", "some <b>text</b>", "class_name", "id_tag");
 $p->print_html();
 
 # add some bold and italc text to above p tag
