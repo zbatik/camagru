@@ -10,4 +10,4 @@
 
 </head>
 <body>
-<?php require_once("navbar.php"); ?>
+<?php require $_SERVER["DOCUMENT_ROOT"]."/camagru/shared/navbar.php"; ?>

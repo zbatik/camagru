@@ -1,4 +1,4 @@
-<?php require_once("shared/header.php"); ?>
+<?php require $_SERVER["DOCUMENT_ROOT"]."/camagru/shared/header.php"; ?>
 
 <form action="action_page.php">
   <div class="container">
@@ -18,4 +18,3 @@
     <span class="psw">Forgot <a href="#">password?</a></span>
   </div>
 </form>
-<?php require_once("shared/footer.php"); ?>

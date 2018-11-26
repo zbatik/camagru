@@ -24,7 +24,7 @@ window.addEventListener("DOMContentLoaded",function() {
 });
 </script>
 
-<?php require_once("shared/header.php"); ?>
+<?php require $_SERVER["DOCUMENT_ROOT"]."/camagru/shared/header.php"; ?>
 
 <form action="signup.php">
   <div class="container">
@@ -46,4 +46,4 @@ window.addEventListener("DOMContentLoaded",function() {
     </label>
   </div>
 </form>
-<?php require_once("shared/footer.php"); ?>
+<?php require $_SERVER["DOCUMENT_ROOT"]."/camagru/shared/footer.php"; ?>

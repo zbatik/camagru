@@ -1,5 +1,7 @@
+<?php require $_SERVER["DOCUMENT_ROOT"]."/camagru/shared/header.php"; ?>
 <?php
-    require_once("shared/header.php");
+    
     echo Hiya;
-    require_once("shared/footer.php");
+    
 ?>
+<?php require $_SERVER["DOCUMENT_ROOT"]."/camagru/shared/footer.php"; ?>

@@ -16,5 +16,4 @@
            <div class="nav-opt"><a href="login.php">Login</a></div>';
        }
    ?>
-
 </div>
