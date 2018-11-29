@@ -49,5 +49,21 @@
             $ret = $stmt->fetch();
             return $ret;
         }
+
+        public function InsertInto ($table, $field, $equals) { 
+            $stmt = self::$pdo->prepare("INSERT INTO testtable (name, lastname, age)
+                VALUES (:fname, :sname, :age)");
+            
+            $stmt->execute([$equals]);
+            $ret = $stmt->fetch();
+            return $ret;
+            $statement = $link->
+
+            $statement->execute([
+                'fname' => 'Bob',
+                'sname' => 'Desaunois',
+                'age' => '18',
+            ]);
+        }
     }
 ?>
