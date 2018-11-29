@@ -26,19 +26,48 @@ function passwordError (error_msg) {
     document.getElementById("psw_conf").value = "";
 }
 function CheckUser (){
+        username = document.getElementById("username").value;
+        if (username == '') {
+            passwordError("username empty"); 
+            return ;
+        } 
         var xhttp = new XMLHttpRequest();
-
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 console.log(this.responseText);
-                return this.responseText;
+                if(this.responseText == 1)
+                passwordError("username already exists"); 
+                return ;
             } 
         };
         xhttp.open("POST", "ajaxhandler.php", true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        $username = document.getElementById("uname").value;
-        console.log("username_exist=1&username="+$username);
-        xhttp.send("username_exist=1&username="+$username);
+        username = document.getElementById("username").value;
+        console.log("username_exist=1&username="+username);
+        xhttp.send("username_exist=1&username="+username);
+    }
+    function CheckDuplicate (field){
+        obj = document.getElementById(field);
+        if (obj.value == '') {
+            passwordError(field + " empty"); 
+            return ;
+        } 
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log(this.responseText);
+                if (this.responseText == 1) {
+                   // $msg = document.getElementById(field+"-msg");
+                   // $msg.innerHTML = obj.value + " is a taken " + $field;
+                    passwordError(field + " already exists"); 
+                }
+                return ;
+            } 
+        };
+        xhttp.open("POST", "ajaxhandler.php", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        console.log("check_duplicate=1&duplicate_type="+field+"&look_for="+obj.value);
+        xhttp.send("check_duplicate=1&duplicate_type="+field+"&look_for="+obj.value);
     }
 
 window.addEventListener("DOMContentLoaded",function() {
@@ -46,7 +75,7 @@ window.addEventListener("DOMContentLoaded",function() {
         psw      = document.getElementById("psw").value;
         psw_conf = document.getElementById("psw_conf").value;
         match    = psw == psw_conf;
-        /*
+        /* THIS WORKS
         if (!match) {
             passwordError("passwords don't match");
             return ;
@@ -58,23 +87,24 @@ window.addEventListener("DOMContentLoaded",function() {
         if (!/\d/.test(psw)) {
             passwordError("password must be at least 1 number"); 
             return ;
-        }*/
-        if (CheckUser() == "1"){
-            passwordError("username already exists"); 
-            return ;
         }
-        // check user name is unique
-        // check email is unique
-
-    });
+        */
+        CheckDuplicate("username");
+        CheckDuplicate("email");
+        });
+   /* document.getElementById("username").addEventListener('click', function(){
+            CheckDuplicate("username");
+       // CheckDuplicate("email");
+       });*/
 });
 </script>
 
 <?php require $_SERVER["DOCUMENT_ROOT"]."/camagru/shared/header.php"; ?>
-<form>
+<form action="">
   <div class="container">
-    <label for="uname"><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" name="uname" id="uname" required>
+    <div class="username-msg"></div>
+    <label for="username"><b>Username</b></label>
+    <input type="text" placeholder="Enter Username" name="uname" id="username" required>
 
     <label for="email"><b>Email</b></label>
     <input type="text" placeholder="Enter Email" name="email" id="email" required>
