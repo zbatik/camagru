@@ -50,20 +50,19 @@
             return $ret;
         }
 
-        public function InsertInto ($table, $field, $equals) { 
-            $stmt = self::$pdo->prepare("INSERT INTO testtable (name, lastname, age)
-                VALUES (:fname, :sname, :age)");
+        public function InsertIntoUser ($username, $email, $password) { 
+            $stmt = self::$pdo->prepare("INSERT INTO user (username, email, password)
+                VALUES (:username, :email, :password)");
             
-            $stmt->execute([$equals]);
-            $ret = $stmt->fetch();
-            return $ret;
-            $statement = $link->
-
-            $statement->execute([
-                'fname' => 'Bob',
-                'sname' => 'Desaunois',
-                'age' => '18',
+            $stmt->execute([
+                'username' => $username,
+                'email' => $email,
+                'password' => $password,
             ]);
+        }
+
+        public function GetUserInfo ($username) { 
+            return $this->SelectWhere('user', 'username', $username);
         }
     }
 ?>

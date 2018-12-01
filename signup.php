@@ -1,81 +1,50 @@
+<?php require $_SERVER["DOCUMENT_ROOT"]."/camagru/shared/header.php"; ?>
 <script>
-
-//generalised AJAXPOST
-/*
-function AjaxPost (array)
-{        
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
-            return this.responseText;
-        } 
-    };
-    xhttp.open("POST", "ajaxhandler.php", true);
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    
-    $username = document.getElementById("uname").value;
-    console.log("username_exist=1&username="+$username);
-xhttp.send("username_exist=1&username="+$username);
-}
-*/
 
 function passwordError (error_msg) {
     alert(error_msg);
     document.getElementById("psw").value = "";
     document.getElementById("psw_conf").value = "";
 }
-function CheckUser (){
-        username = document.getElementById("username").value;
-        if (username == '') {
-            passwordError("username empty"); 
+
+function CheckDuplicate (field){
+    obj = document.getElementById(field);
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
+            console.log(field+"-msg");
+            msg = document.getElementById(field+"-msg");
+            if (this.responseText == 1) {
+                msg.innerHTML = obj.value + " is a taken " + field;
+                msg.style.backgroundColor = 'red';
+                //passwordError(field + " already exists"); 
+            } else {
+                msg.innerHTML = "";
+                msg.style.backgroundColor = 'initial';
+            }
             return ;
         } 
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                console.log(this.responseText);
-                if(this.responseText == 1)
-                    passwordError("username already exists"); 
-                return ;
-            } 
-        };
-        xhttp.open("POST", "ajaxhandler.php", true);
-        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        username = document.getElementById("username").value;
-        console.log("username_exist=1&username="+username);
-        xhttp.send("username_exist=1&username="+username);
-    }
-    function CheckDuplicate (field){
-        obj = document.getElementById(field);
-        if (obj.value == '') {
-            passwordError(field + " empty"); 
-            return ;
-        } 
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                console.log(this.responseText);
-                if (this.responseText == 1) {
-                   // $msg = document.getElementById(field+"-msg");
-                   // $msg.innerHTML = obj.value + " is a taken " + $field;
-                    passwordError(field + " already exists"); 
-                }
-                return ;
-            } 
-        };
-        xhttp.open("POST", "ajaxhandler.php", true);
-        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        console.log("check_duplicate=1&duplicate_type="+field+"&look_for="+obj.value);
-        xhttp.send("check_duplicate=1&duplicate_type="+field+"&look_for="+obj.value);
-    }
+    };
+    xhttp.open("POST", "signup_handler.php");
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    console.log("check_duplicate=1&duplicate_type="+field+"&look_for="+obj.value);
+    xhttp.send("check_duplicate=1&duplicate_type="+field+"&look_for="+obj.value);
+}
 
 window.addEventListener("DOMContentLoaded",function() {
-    document.getElementById("submit").addEventListener('click', function(){
+    document.getElementById("username").addEventListener('keyup', function(){
+        CheckDuplicate("username");
+    });
+    document.getElementById("email").addEventListener('keyup', function(){
+        CheckDuplicate("email");
+    });
+    document.getElementById("signup-form").addEventListener("submit", function (event) {
+        event.preventDefault();
         psw      = document.getElementById("psw").value;
         psw_conf = document.getElementById("psw_conf").value;
         match    = psw == psw_conf;
-        /* THIS WORKS
+        /*
         if (!match) {
             passwordError("passwords don't match");
             return ;
@@ -89,25 +58,28 @@ window.addEventListener("DOMContentLoaded",function() {
             return ;
         }
         */
-        CheckDuplicate("username");
-        CheckDuplicate("email");
-        });
-   /* document.getElementById("username").addEventListener('click', function(){
-            CheckDuplicate("username");
-       // CheckDuplicate("email");
-       });*/
+        if ("red" == document.getElementById("username-msg").style.backgroundColor ||
+            "red" == document.getElementById("email-msg").style.backgroundColor) {
+            alert("make sure you have selected a unique username and/or password")
+            return ;
+        }
+        PostSignupForm("signup-form", "signup_handler.php");
+    });
 });
+
 </script>
 
-<?php require $_SERVER["DOCUMENT_ROOT"]."/camagru/shared/header.php"; ?>
-<form action="">
-  <div class="container">
-    <div class="username-msg"></div>
-    <label for="username"><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" name="uname" id="username" required>
 
+<form id="signup-form" action="" method="post">
+  <div class="container">
+    
+    <div id="username-msg"></div>
+    <label for="username"><b>Username</b></label>
+    <input type="text" placeholder="Enter Username" name="username" id="username" required>
+
+    <div id="email-msg"></div>
     <label for="email"><b>Email</b></label>
-    <input type="text" placeholder="Enter Email" name="email" id="email" required>
+    <input type="email" placeholder="Enter Email" name="email" id="email" required>
 
     <label for="psw"><b>Password</b></label>
     <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
@@ -116,9 +88,6 @@ window.addEventListener("DOMContentLoaded",function() {
     <input type="password" placeholder="Re-Enter Password" name="psw_conf" id="psw_conf" required>
 
     <button type="submit" id="submit">Sign Up</button>
-    <label>
-      <input type="checkbox" checked="checked" name="remember"> Remember me
-    </label>
   </div>
 </form>
 <?php require $_SERVER["DOCUMENT_ROOT"]."/camagru/shared/footer.php"; ?>
