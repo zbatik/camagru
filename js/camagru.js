@@ -7,8 +7,7 @@ function PostSignupForm(form_id, post_to) {
     
     // Define what happens on successful data submission
     xhttp.addEventListener("load", function(event) {
-        window.location.href = "http://localhost:8080/camagru/index.php"
-        alert(event.target.responseText);
+        window.location.href = "http://localhost:8080/camagru/confirm.php"
     });
 
     // Define what happens in case of error
@@ -32,8 +31,11 @@ function PostLoginForm(form_id, post_to) {
     
     // Define what happens on successful data submission
     xhttp.addEventListener("load", function(event) {
-        //window.location.href = "http://localhost:8080/camagru/index.php"
-        alert(event.target.responseText);
+        if (event.target.responseText == 1) {
+            window.location.href = "http://localhost:8080/camagru/index.php"
+        } else {
+            alert("incorrect login");
+        }
     });
 
     // Define what happens in case of error
@@ -47,6 +49,7 @@ function PostLoginForm(form_id, post_to) {
     // The data sent is what the user provided in the form
     xhttp.send(form_data);
 }
+
 function PostForgotForm(form_id, post_to) {
     var xhttp = new XMLHttpRequest();
 

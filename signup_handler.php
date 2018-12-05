@@ -17,12 +17,8 @@ if (isset($_POST["username"]) && isset($_POST["psw"]))
     $username = $_POST["username"];
     $email = $_POST["email"];
     $psw = password_hash($_POST["psw"], PASSWORD_DEFAULT);
-    //echo "$username $email $psw";
     $db = new DB;
     $db->InsertIntoUser ($username, $email, $psw);
-    session_start();
-   $_SESSION["username"] = $username;
-   $_SESSION["email"] = $email;
-   $_SESSION["logged_on"] = 1;
+    //send email
 }
 ?>

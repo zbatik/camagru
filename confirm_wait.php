@@ -1,0 +1,1 @@
+<h1> please check you emails and click the confirmation link </h1>

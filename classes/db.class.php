@@ -50,19 +50,21 @@
             return $ret;
         }
 
-        public function InsertIntoUser ($username, $email, $password) { 
-            $stmt = self::$pdo->prepare("INSERT INTO user (username, email, password)
-                VALUES (:username, :email, :password)");
+        public function InsertIntoUser ($username, $email, $password) {
+            $token = uniqid();
+            $stmt = self::$pdo->prepare("INSERT INTO user (username, email, password, token)
+                VALUES (:username, :email, :password, :token)");
             
             $stmt->execute([
                 'username' => $username,
                 'email' => $email,
                 'password' => $password,
+                'token' => $token
             ]);
         }
 
-        public function GetUserInfo ($username) { 
-            return $this->SelectWhere('user', 'username', $username);
+        public function GetUserInfo ($field, $value) { 
+            return $this->SelectWhere('user', $field, $value);
         }
     }
 ?>
