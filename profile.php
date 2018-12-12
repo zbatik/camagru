@@ -1,7 +1,6 @@
 <?php require $_SERVER["DOCUMENT_ROOT"]."/camagru/shared/header.php"; ?>
 
 <script>
-
 window.addEventListener("DOMContentLoaded",function() {
         var userform = "profile-username-form";
         document.getElementById(userform).addEventListener("submit", function (event) {
@@ -19,9 +18,7 @@ window.addEventListener("DOMContentLoaded",function() {
             PostUpdateForm(pswform, "profile_password_handler.php");
         });
 });
-
 </script>
-
 
 <h2> My Profile </h2>
 <h3> Update My info </h3>
@@ -57,7 +54,7 @@ window.addEventListener("DOMContentLoaded",function() {
     <label for="new_psw"><b>New Password</b></label>
     <input type="password" name="new_psw" id="new_psw" required>
 
-    <label for="psw"><b>Confirm New Password</b></label>
+    <label for="new_psw_conf"><b>Confirm New Password</b></label>
     <input type="password" name="new_psw_conf" id="new_psw_conf" required>
 
     <button type="submit" id="submit3">Change Password</button>

@@ -69,15 +69,22 @@
             return $this->SelectWhere('user', $field, $value);
         }
 
-        public function ActivateUser($username)
-        {
+        public function UpdateUserItem($setfield, $setval, $wherefield, $whereval) {
+            $sql = "UPDATE user SET $setfield=:setval WHERE $wherefield=:whereval";
+            $stmt = self::$pdo->prepare($sql);
+            $stmt->execute([
+                "setval" => $setval,
+                "whereval" => $whereval
+            ]);
+        }
+
+        public function ActivateUser($username) {
             $sql = "UPDATE user SET validated=1 WHERE username=:username";
             $stmt = self::$pdo->prepare($sql);
             $stmt->execute(["username" => $username]);      
         }
 
-        public function ResetPassword($email, $newpassword)
-        {
+        public function ResetPassword($email, $newpassword) {
             $sql = "UPDATE user SET password=:newpsw WHERE email=:email";
             $stmt = self::$pdo->prepare($sql);
             $stmt->execute([

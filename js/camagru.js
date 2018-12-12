@@ -46,6 +46,10 @@ function PostForgotForm(form_id, post_to) {
 
 function PostUpdateForm(form_id, post_to) {
     PostForm(form_id, post_to, function(event) {
-        alert(event.target.responseText);
+        if (event.target.responseText == 1) {
+            window.location.href = "http://localhost:8080/camagru/profile.php";
+        } else {
+            alert("update falied");
+        }
     });
 }
