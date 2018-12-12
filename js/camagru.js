@@ -7,7 +7,7 @@ function PostSignupForm(form_id, post_to) {
     
     // Define what happens on successful data submission
     xhttp.addEventListener("load", function(event) {
-        window.location.href = "http://localhost:8080/camagru/confirm.php"
+        window.location.href = "http://localhost:8080/camagru/confirm_wait.php"
     });
 
     // Define what happens in case of error
@@ -32,7 +32,9 @@ function PostLoginForm(form_id, post_to) {
     // Define what happens on successful data submission
     xhttp.addEventListener("load", function(event) {
         if (event.target.responseText == 1) {
-            window.location.href = "http://localhost:8080/camagru/index.php"
+            window.location.href = "http://localhost:8080/camagru/index.php";
+        } else if (event.target.responseText == -1) {
+            window.location.href = "http://localhost:8080/camagru/confirm_wait.php";
         } else {
             alert("incorrect login");
         }

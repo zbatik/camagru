@@ -13,11 +13,16 @@
         }  else if (0 == password_verify($_POST["psw"], $db_hash)) {
             echo 0;
         } else {
-            echo 1;
-            session_start();
-            $_SESSION["username"] = $username;
-            $_SESSION["email"] = $user_info["email"];
-            $_SESSION["logged_on"] = 1;
+
+            if ($user_info["validated"]){
+                echo 1;
+                session_start();
+                $_SESSION["username"] = $username;
+                $_SESSION["email"] = $user_info["email"];
+                $_SESSION["logged_on"] = 1;
+            } else {
+                echo -1;
+            }
         }       
     }
 ?>

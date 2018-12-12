@@ -13,18 +13,21 @@
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             PDO::ATTR_EMULATE_PREPARES   => false,
         ];
+
         public function getConnection()
         {
             if (self::$pdo == null)
                 self::$pdo = new PDO($this->dsn, $this->user, $this->pass, $this->options);
             return self::$pdo;
         }
+
         public function __construct()
         {
             $this->dsn = "mysql:host=$this->host;dbname=$this->db;charset=$this->charset";
             $this->getConnection();
         }
     
+        /*
         public function QueryUsername ($username) { 
             $stmt = self::$pdo->prepare('SELECT * FROM user WHERE username = ?');
             $stmt->execute([$username]);
@@ -33,7 +36,7 @@
                 return 1;
             else
                 return 0;
-        }
+        }*/
 
         public function ItemExists ($field, $equals) { 
             $return = $this->SelectWhere('user', $field, $equals);
@@ -50,8 +53,7 @@
             return $ret;
         }
 
-        public function InsertIntoUser ($username, $email, $password) {
-            $token = uniqid();
+        public function InsertIntoUser ($username, $email, $password, $token) {
             $stmt = self::$pdo->prepare("INSERT INTO user (username, email, password, token)
                 VALUES (:username, :email, :password, :token)");
             
@@ -65,6 +67,23 @@
 
         public function GetUserInfo ($field, $value) { 
             return $this->SelectWhere('user', $field, $value);
+        }
+
+        public function ActivateUser($username)
+        {
+            $sql = "UPDATE user SET validated=1 WHERE username=:username";
+            $stmt = self::$pdo->prepare($sql);
+            $stmt->execute(["username" => $username]);      
+        }
+
+        public function ResetPassword($email, $newpassword)
+        {
+            $sql = "UPDATE user SET password=:newpsw WHERE email=:email";
+            $stmt = self::$pdo->prepare($sql);
+            $stmt->execute([
+                "newpsw" => $newpassword,
+                "email" => $email
+            ]);    
         }
     }
 ?>
