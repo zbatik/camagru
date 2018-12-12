@@ -19,11 +19,17 @@ if (isset($_POST["username"]) && isset($_POST["psw"]))
     $psw = password_hash($_POST["psw"], PASSWORD_DEFAULT);
     $db = new DB;
     $token = uniqid();
-    $db->InsertIntoUser ($username, $email, $psw, $token);
+    
     //send email
+    $headers = "FROM: noreply@camagru.com";
     $msg = "Welcome to Camagru\nClick the link below to activete your account\n\n";
     $msg .= "http://localhost:8080/camagru/activate.php?email=$email&token=$token\n";
     $msg = wordwrap($msg,120);
-    mail($email, "Activate Account", $msg);
+    if (mail($email, "Activate Account", $msg, $headers)) {
+        $db->InsertIntoUser ($username, $email, $psw, $token);
+        echo 1;
+    } else {
+        echo 0;
+    }
 }
 ?>

@@ -13,9 +13,9 @@ window.addEventListener("DOMContentLoaded",function() {
 <h3> Enter Email to Recieve a Recovery Password </h3>
 <form action="" method="post" id="forgot-form">
   <div class="container">
-    <label for="username"><b>Recovery Email</b></label>
-    <input type="text" placeholder="Enter Email" name="username" required>
+    <label for="email"><b>Recovery Email</b></label>
+    <input type="email" placeholder="Enter Email" name="email" required>
 
-    <button type="submit">Recover Password</button>
+    <button type="submit">Reset Password</button>
   </div>
 </form>
