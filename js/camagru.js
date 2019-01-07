@@ -10,6 +10,22 @@ function PostForm(form_id, post_to, load_function) {
     xhttp.send(form_data);
 }
 
+function PostPhoto(img_id){
+    //obj = document.getElementById(field);
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
+            return ;
+        } 
+    };
+    xhttp.open("POST", "gallery_handler.php");
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    var post_url = "update_gallery=1&photo_data=temp";
+    console.log(post_url);
+    xhttp.send(post_url);
+}
+
 function PostSignupForm(form_id, post_to) {
     PostForm(form_id, post_to, function(event) {
         if (event.target.responseText == 1) {
@@ -53,37 +69,3 @@ function PostUpdateForm(form_id, post_to) {
         }
     });
 }
-
-window.addEventListener("DOMContentLoaded",function() {
-
-    var video = document.getElementById("video"),
-       canvas = document.getElementById("canvas"),
-       context = canvas.getContext("2d"),
-
-       vendorUrl = window.URL || window.webkitURL;
-
-   navigator.getMedia =    navigator.getUserMedia ||
-                           navigator.webkitGetUserMedia ||
-                           navigator.mozGetusermedia ||
-                           navigator.msGetUserMedia;
-
-   navigator.getMedia({
-       video: true,
-       audio: false
-   }, function(stream) {
-       video.srcObject = stream;
-       video.play();
-   }, function(error) {
-       has_webcam = false;
-      // cap_btn.hidden = true;
-   });
-    document.getElementById("capture-but").addEventListener('click', function(){
-        context.drawImage(video, 0, 0, 400, 300);
-        currentpic = canvas.toDataURL();
-        photo = document.createElement('img');
-        photo.setAttribute("src", currentpic);
-        camera_roll = document.getElementById("photo-reel");
-        camera_roll.insertBefore(photo, camera_roll.firstElementChild);
-        photo.setAttribute("style", "transform: rotateY(180deg);-webkit-transform:rotateY(180deg); -moz-transform:rotateY(180deg); ");
-    });
-});

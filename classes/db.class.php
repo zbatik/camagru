@@ -65,6 +65,17 @@
             ]);
         }
 
+        public function InsertIntoGallery ($username, $photo_data, $time_stamp) {
+            $stmt = self::$pdo->prepare("INSERT INTO gallery (username, photo_data, time_stamp)
+                VALUES (:username, :photo_data, :time_stamp)");
+            
+            $stmt->execute([
+                'username' => $username,
+                'photo_data' => $photo_data,
+                'time_stamp' => $time_stamp
+            ]);
+        }
+
         public function GetUserInfo ($field, $value) { 
             return $this->SelectWhere('user', $field, $value);
         }
