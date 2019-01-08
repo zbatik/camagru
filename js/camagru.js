@@ -17,10 +17,6 @@ function PostPhoto(photo_data){
         update_gallery: 1,
         photo_data : photo_data
     }
-    // var postObj = {};
-    
-
-
     xhttp.open("POST", "gallery_handler.php");
     xhttp.setRequestHeader("Content-type", "application/json");
     console.log(postObj);
@@ -32,13 +28,6 @@ function PostPhoto(photo_data){
         } 
     };
     xhttp.send(JSON.stringify(postObj));
-    // var postObj = {};
-    // xhttp.open("POST", "gallery_handler.php");
-    // xhttp.setRequestHeader("Content-Type", "application/json");
-    // postObj.update_gallery = '1';
-    // postObj.photo_data = photo_data;
-    // console.log(JSON.stringify(postObj));
-    // xhttp.send(JSON.stringify(postObj));
 }
 
 function PostSignupForm(form_id, post_to) {

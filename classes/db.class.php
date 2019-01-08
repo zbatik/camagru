@@ -76,6 +76,16 @@
             ]);
         }
 
+        public function AddLike ($photo_id, $user_id) {
+            $stmt = self::$pdo->prepare("INSERT INTO likes (photo_id, user_id)
+                VALUES (:photo_id, :user_id)");
+            
+            $stmt->execute([
+                'user_id' => $user_id,
+                'photo_id' => $photo_id
+            ]);
+        }
+
         public function SelectAllPhotos() { 
             $stmt = self::$pdo->prepare("SELECT * FROM gallery
             LEFT JOIN 

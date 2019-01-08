@@ -8,6 +8,7 @@
         $db->ActivateUser($user_info["username"]);
         $_SESSION["username"] = $user_info["username"];
         $_SESSION["email"] = $user_info["email"];
+        $_SESSION["id"] = $user_info["id"];
         $_SESSION["logged_on"] = 1;
         header("Location: index.php");
     } else {
