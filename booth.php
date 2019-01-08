@@ -26,13 +26,14 @@
     });
     document.getElementById("capture-but").addEventListener('click', function(){
         context.drawImage(video, 0, 0, 400, 300);
+        
         currentpic = canvas.toDataURL();
         photo = document.createElement('img');
         photo.setAttribute("src", currentpic);
         camera_roll = document.getElementById("photo-reel");
         camera_roll.insertBefore(photo, camera_roll.firstElementChild);
         photo.setAttribute("style", "transform: rotateY(180deg);-webkit-transform:rotateY(180deg); -moz-transform:rotateY(180deg);");
-        PostPhoto("photo_id");
+        PostPhoto(currentpic);
     });
     });
 </script>

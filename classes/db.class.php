@@ -76,6 +76,13 @@
             ]);
         }
 
+        public function SelectAllPhotos() { 
+            $stmt = self::$pdo->prepare("SELECT * FROM gallery");
+            $stmt->execute();
+            // $ret = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $stmt;
+        }
+
         public function GetUserInfo ($field, $value) { 
             return $this->SelectWhere('user', $field, $value);
         }

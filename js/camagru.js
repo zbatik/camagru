@@ -10,20 +10,35 @@ function PostForm(form_id, post_to, load_function) {
     xhttp.send(form_data);
 }
 
-function PostPhoto(img_id){
-    //obj = document.getElementById(field);
+function PostPhoto(photo_data){
     var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
+
+    var postObj = {
+        update_gallery: 1,
+        photo_data : photo_data
+    }
+    // var postObj = {};
+    
+
+
+    xhttp.open("POST", "gallery_handler.php");
+    xhttp.setRequestHeader("Content-type", "application/json");
+    console.log(postObj);
+    
+    xhttp.onreadystatechange = function(data) {
         if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
+            console.log('->'+this.responseText);
             return ;
         } 
     };
-    xhttp.open("POST", "gallery_handler.php");
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    var post_url = "update_gallery=1&photo_data=temp";
-    console.log(post_url);
-    xhttp.send(post_url);
+    xhttp.send(JSON.stringify(postObj));
+    // var postObj = {};
+    // xhttp.open("POST", "gallery_handler.php");
+    // xhttp.setRequestHeader("Content-Type", "application/json");
+    // postObj.update_gallery = '1';
+    // postObj.photo_data = photo_data;
+    // console.log(JSON.stringify(postObj));
+    // xhttp.send(JSON.stringify(postObj));
 }
 
 function PostSignupForm(form_id, post_to) {
