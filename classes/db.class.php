@@ -77,7 +77,14 @@
         }
 
         public function SelectAllPhotos() { 
-            $stmt = self::$pdo->prepare("SELECT * FROM gallery");
+            $stmt = self::$pdo->prepare("SELECT username, photo_data, time_stamp, COALESCE(likes, 0) FROM gallery
+            LEFT JOIN 
+            (SELECT photo_id, COUNT(photo_id) AS likes
+            FROM likes 
+            GROUP BY photo_id ) AS COUNTED
+            ON
+            COUNTED.photo_id = gallery.id
+            ORDER BY time_stamp DESC");
             $stmt->execute();
             // $ret = $stmt->fetch(PDO::FETCH_ASSOC);
             return $stmt;

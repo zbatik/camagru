@@ -90,6 +90,15 @@ span.psw {
         width: 100%;
     }
 }
+
+.post-wrapper {
+    
+}
+
+.photo-wrapper {
+    display: flex;
+    justify-content: center;
+}
 /*                   */
 /* end of file       */
 /*                   */
