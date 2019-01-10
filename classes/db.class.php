@@ -86,6 +86,18 @@
             ]);
         }
 
+        public function AddComment ($photo_id, $user_id, $comment, $time_stamp) {
+            $stmt = self::$pdo->prepare("INSERT INTO comments (photo_id, user_id, comment, time_stamp)
+                VALUES (:photo_id, :user_id, :comment, :time_stamp)");
+            
+            $stmt->execute([
+                'user_id' => $user_id,
+                'photo_id' => $photo_id,
+                'comment' => $comment,
+                'time_stamp' => $time_stamp
+            ]);
+        }
+
         public function DeleteLike ($photo_id, $user_id) {
             $stmt = self::$pdo->prepare("DELETE FROM likes WHERE photo_id=:photo_id AND user_id=:user_id");
             $stmt->execute([
