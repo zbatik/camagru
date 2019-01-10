@@ -86,6 +86,14 @@
             ]);
         }
 
+        public function DeleteLike ($photo_id, $user_id) {
+            $stmt = self::$pdo->prepare("DELETE FROM likes WHERE photo_id=:photo_id AND user_id=:user_id");
+            $stmt->execute([
+                "photo_id" => $photo_id,
+                "user_id" => $user_id
+                ]); 
+        }
+
         public function SelectAllPhotos() { 
             $stmt = self::$pdo->prepare("SELECT * FROM gallery
             LEFT JOIN 
@@ -102,6 +110,19 @@
 
         public function GetUserInfo ($field, $value) { 
             return $this->SelectWhere('user', $field, $value);
+        }
+
+        public function IsLiked ($user_id, $photo_id) { 
+            $stmt = self::$pdo->prepare("SELECT * FROM likes WHERE photo_id=:photo_id AND user_id=:user_id");
+            $stmt->execute([
+                "photo_id" => $photo_id,
+                "user_id" => $user_id
+                ]);   
+            $ret = $stmt->fetch();
+            if ($ret == null)
+                return 0;
+            else
+                return 1;
         }
 
         public function UpdateUserItem($setfield, $setval, $wherefield, $whereval) {

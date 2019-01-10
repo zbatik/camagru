@@ -1,7 +1,7 @@
 <div class="w3-container w3-teal ">
    <h1  class="w3-animate-zoom w3-panel w3-center">WhatWhat!</h1>
    <?php
-        session_start();
+       session_start();
        if(isset($_SESSION['logged_on'])) {
            echo $_SESSION["username"];
             echo '

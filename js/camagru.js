@@ -23,7 +23,7 @@ function PostPhoto(photo_data){
     
     xhttp.onreadystatechange = function(data) {
         if (this.readyState == 4 && this.status == 200) {
-            console.log('->'+this.responseText);
+            console.log("like posted");
             return ;
         } 
     };
