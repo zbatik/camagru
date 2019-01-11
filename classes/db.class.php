@@ -65,12 +65,12 @@
             ]);
         }
 
-        public function InsertIntoGallery ($username, $photo_data, $time_stamp) {
-            $stmt = self::$pdo->prepare("INSERT INTO gallery (username, photo_data, time_stamp)
-                VALUES (:username, :photo_data, :time_stamp)");
+        public function InsertIntoGallery ($user_id, $photo_data, $time_stamp) {
+            $stmt = self::$pdo->prepare("INSERT INTO gallery (user_id, photo_data, time_stamp)
+                VALUES (:user_id, :photo_data, :time_stamp)");
             
             $stmt->execute([
-                'username' => $username,
+                'user_id' => $user_id,
                 'photo_data' => $photo_data,
                 'time_stamp' => $time_stamp
             ]);

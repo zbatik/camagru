@@ -148,7 +148,7 @@
             }
             echo "<button id='unlike-but-$photo_id' onclick='removeLike($user_id, $photo_id)' style='background-color: grey; display: $unlike'>unlike</button>";
             echo "<button id='like-but-$photo_id' onclick='addLike($user_id, $photo_id)' style='display: $like'>like</button>";
-            if ($row["username"] == $_SESSION["username"]) {
+            if ($row["user_id"] == $_SESSION["id"]) {
                 echo "<button class='del-but' class='del-but-$photo_id' onclick='deletePhoto($photo_id)' style='background-color: pink;'>delete</button>";
             }
         }

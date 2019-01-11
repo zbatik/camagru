@@ -10,11 +10,11 @@ if ($headers["Content-type"] == "application/json") {
         if ($_POST["action"] == "post_photo")
         {
             session_start();
-            $username = $_SESSION["username"];
+            $user_id = $_SESSION["id"];
             $photo = $_POST["photo_data"];
             $time = time();
             $db = new DB;
-            $db->InsertIntoGallery($username, $photo, $time);
+            $db->InsertIntoGallery($user_id, $photo, $time);
         }
         if ($_POST["action"] == "delete_photo")
         {
