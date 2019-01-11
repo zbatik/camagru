@@ -76,6 +76,29 @@
         });
     }
 
+    function deletePhoto(photo_id) {
+        var xhttp = new XMLHttpRequest();
+
+        var postObj = {
+            action: "delete_photo",
+            photo_id : photo_id
+        }
+        xhttp.open("POST", "gallery_handler.php");
+        xhttp.setRequestHeader("Content-type", "application/json");
+        console.log(postObj);
+        
+        xhttp.onreadystatechange = function(data) {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log("photo deleted");
+                return ;
+            } 
+        };
+        xhttp.send(JSON.stringify(postObj));
+ 
+        var element = document.getElementById("post-wrapper-"+photo_id);
+        element.parentNode.removeChild(element);
+    }
+
     window.addEventListener("DOMContentLoaded",function() {
        
         var forms = document.getElementsByClassName("comment-form");
@@ -98,10 +121,11 @@
     $db = new DB;
     $photos = $db->SelectAllPhotos();
     $user_id = $_SESSION["id"];
+    echo "<div id='gallery-wrapper'>";
     while (($row = $photos->fetch(PDO::FETCH_ASSOC))) {
         $photo_id = $row["id"];
-            echo "<div class=post-wrapper>
-                    <div class=photo-wrapper>
+            echo "<div class=post-wrapper id='post-wrapper-$photo_id'>
+                    <div class=photo-wrapper id='photo-wrapper-$photo_id'>
                         <img src='".$row["photo_data"]."'>
                     </div>";
         if ($_SESSION["logged_on"])
@@ -125,13 +149,13 @@
             echo "<button id='unlike-but-$photo_id' onclick='removeLike($user_id, $photo_id)' style='background-color: grey; display: $unlike'>unlike</button>";
             echo "<button id='like-but-$photo_id' onclick='addLike($user_id, $photo_id)' style='display: $like'>like</button>";
             if ($row["username"] == $_SESSION["username"]) {
-                echo "<button id='del-but' onclick='deletePhoto()' style='background-color: pink;'>delete</button>";
+                echo "<button class='del-but' class='del-but-$photo_id' onclick='deletePhoto($photo_id)' style='background-color: pink;'>delete</button>";
             }
         }
         $like_count = ($row["likes"] == null) ? 0 : $row["likes"];
         echo "<p>likes:<span id='photo-id-$photo_id'>$like_count</span></p>
             </div>";
-        
     }
+    echo "</div>";
 ?>
 <?php require $_SERVER["DOCUMENT_ROOT"]."/camagru/shared/footer.php"; ?>

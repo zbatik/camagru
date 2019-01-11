@@ -106,6 +106,17 @@
                 ]); 
         }
 
+        public function DeletePhoto ($photo_id) {
+            $stmt1 = self::$pdo->prepare("DELETE FROM likes WHERE photo_id=:photo_id");
+            $stmt1->execute(["photo_id" => $photo_id]); 
+
+            $stmt2 = self::$pdo->prepare("DELETE FROM gallery WHERE id=:photo_id");
+            $stmt2->execute(["photo_id" => $photo_id]);
+
+            $stmt3 = self::$pdo->prepare("DELETE FROM comments WHERE photo_id=:photo_id");
+            $stmt3->execute(["photo_id" => $photo_id]);
+        }
+
         public function SelectAllPhotos() { 
             $stmt = self::$pdo->prepare("SELECT * FROM gallery
             LEFT JOIN 

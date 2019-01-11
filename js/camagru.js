@@ -14,7 +14,7 @@ function PostPhoto(photo_data){
     var xhttp = new XMLHttpRequest();
 
     var postObj = {
-        update_gallery: 1,
+        action: "post_photo",
         photo_data : photo_data
     }
     xhttp.open("POST", "gallery_handler.php");
@@ -23,12 +23,14 @@ function PostPhoto(photo_data){
     
     xhttp.onreadystatechange = function(data) {
         if (this.readyState == 4 && this.status == 200) {
-            console.log("like posted");
+            console.log("photo posted");
             return ;
         } 
     };
     xhttp.send(JSON.stringify(postObj));
 }
+
+
 
 function PostSignupForm(form_id, post_to) {
     PostForm(form_id, post_to, function(event) {
