@@ -14,7 +14,7 @@
         }
         xhttp.open("POST", "like_handler.php");
         xhttp.setRequestHeader("Content-type", "application/json");
-        xhttp.onreadystatechange = function(data) {
+        xhttp.onreadystatechange = function(event) {
             if (this.readyState == 4 && this.status == 200) {
                 console.log('->'+this.responseText);
                 return ;

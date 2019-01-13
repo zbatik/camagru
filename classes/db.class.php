@@ -157,6 +157,15 @@
             ]);
         }
 
+        public function UpdateEmailNotificationPreferences($user_id, $preference) {
+            $sql = "UPDATE user SET receive_notifications=:preference WHERE id=:user_id";
+            $stmt = self::$pdo->prepare($sql);
+            $stmt->execute([
+                "user_id" => $user_id,
+                "preference" => $preference
+            ]);
+        }
+
         public function ActivateUser($username) {
             $sql = "UPDATE user SET validated=1 WHERE username=:username";
             $stmt = self::$pdo->prepare($sql);

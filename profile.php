@@ -1,6 +1,44 @@
 <?php require $_SERVER["DOCUMENT_ROOT"]."/camagru/shared/header.php"; ?>
 
 <script>
+
+function updateSubscription(user_id, change_to)
+{
+        var xhttp = new XMLHttpRequest();
+        var postObj = {
+            action: "update",
+            user_id: user_id,
+            preference: change_to
+        }
+        xhttp.open("POST", "profile_notifications_handler.php");
+        xhttp.setRequestHeader("Content-type", "application/json");
+        xhttp.onreadystatechange = function(event) {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log("notifications preferences updated" + event.target.responseText);
+                return ;
+            } 
+        };
+        xhttp.send(JSON.stringify(postObj));
+}
+
+function subscribe(user_id) {
+  console.log("subscribed");
+  var unsub = document.getElementById("unsubscribe-but");
+  var sub = document.getElementById("subscribe-but");
+  unsub.style.display = "block";
+  sub.style.display = "none";
+  updateSubscription(user_id, 1);
+}
+
+function unsubscribe(user_id) {
+  console.log("unsubscribed");
+  var unsub = document.getElementById("unsubscribe-but");
+  var sub = document.getElementById("subscribe-but");
+  unsub.style.display = "none";
+  sub.style.display = "block";
+  updateSubscription(user_id, 0);
+}
+
 window.addEventListener("DOMContentLoaded",function() {
         var userform = "profile-username-form";
         document.getElementById(userform).addEventListener("submit", function (event) {
@@ -60,4 +98,22 @@ window.addEventListener("DOMContentLoaded",function() {
     <button type="submit" id="submit3">Change Password</button>
   </div>
 </form>
+<?php
+  $id = $_SESSION["id"];
+  require_once './classes/db.class.php';
+  $db = new DB;
+  $user_info = $db->GetUserInfo("username", $_SESSION["username"]);
+  if ($user_info["receive_notifications"]) {
+    $unsub_disp = "block";
+    $sub_disp = "none";
+  } else {
+    $unsub_disp = "none";
+    $sub_disp = "block";
+  }
+
+  echo "<button id='unsubscribe-but' onclick='unsubscribe($id)' style='background-color: grey; display: $unsub_disp'>unsubscribe from notification mail</button>";  
+  echo "<button id='subscribe-but' onclick='subscribe($id)' style='display: $sub_disp'>subscribe to notification mail</button>";
+    
+?>
+
 <?php require $_SERVER["DOCUMENT_ROOT"]."/camagru/shared/footer.php"; ?>
