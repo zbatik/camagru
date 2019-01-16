@@ -6,7 +6,6 @@
            echo $_SESSION["username"];
             echo '
            <div class="nav-opt"><a href="index.php" class="set">Alll the Gallery</a></div>
-           <div class="nav-opt"><a href="#" class="set">My Gallery</a></div>
            <div class="nav-opt"><a href="booth.php" class="set">Photo Booth</a></div>
            <div class="nav-opt"><a href="logout.php">Logout</a></div>
            <div class="nav-opt"><a href="profile.php">My Profile</a></div>';

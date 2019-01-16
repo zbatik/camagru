@@ -99,6 +99,15 @@ span.psw {
     display: flex;
     justify-content: center;
 }
+.overlays {
+    height: 120px;
+}
+
+#overlay-wrapper {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
 /*                   */
 /* end of file       */
 /*                   */
