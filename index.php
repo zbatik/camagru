@@ -107,7 +107,12 @@
             forms[i].addEventListener("submit", function () {
             event.preventDefault();
             // console.log(this.id);
-           PostCommentForm(this.id , "comment_handler.php");
+            PostCommentForm(this.id , "comment_handler.php");
+            p = document.createElement('p');
+            p.innerHTML = "comment added refresh to view";
+            comment_box = document.getElementById("comment-wrapper");
+            comment_box.insertBefore(p, comment_box.firstElementChild);
+           // send mail to commented user
         });
         }
         // // document.getElementById("comment-form").addEventListener("submit", function (event) {
@@ -128,9 +133,18 @@
                     <div class=photo-wrapper id='photo-wrapper-$photo_id'>
                         <img src='".$row["photo_data"]."'>
                     </div>";
-        if ($_SESSION["logged_on"])
-        {
-            echo "<form action='' method='post' id='comment-form-$photo_id' class='comment-form'>
+            echo "<div id='comment-wrapper'
+                    <p><b>Comments:</b></p>";
+            $comments = $db->SelectComments($photo_id);
+            while ($row = $comments->fetch(PDO::FETCH_ASSOC)) {
+                $comment = htmlspecialchars($row["comment"], ENT_QUOTES, 'UTF-8');
+                echo "<p><b>".$row["username"].":</b> $comment</p>";
+            }
+            echo "</div>"; // comment wrapper
+
+            if ($_SESSION["logged_on"])
+            {
+                echo "<form action='' method='post' id='comment-form-$photo_id' class='comment-form'>
                     <div class='container'>
                         <label for='comment'><b>Comment</b></label>
                         <input type='text' placeholder='Type comment' name='comment' required>
@@ -139,23 +153,23 @@
                         <button type='submit'>Add Comment</button>
                     </div>
                 </form>";
-            if ($db->IsLiked($user_id, $photo_id)) {
-                $unlike = "block";
-                $like = "none";
-            } else {
-                $unlike = "none";
-                $like = "block";
+                if ($db->IsLiked($user_id, $photo_id)) {
+                    $unlike = "block";
+                    $like = "none";
+                } else {
+                    $unlike = "none";
+                    $like = "block";
+                }
+                echo "<button id='unlike-but-$photo_id' onclick='removeLike($user_id, $photo_id)' style='background-color: grey; display: $unlike'>unlike</button>";
+                echo "<button id='like-but-$photo_id' onclick='addLike($user_id, $photo_id)' style='display: $like'>like</button>";
+                //if ($row["user_id"] == $_SESSION["id"]) {
+                    echo "<button class='del-but' class='del-but-$photo_id' onclick='deletePhoto($photo_id)'>delete</button>";
+                //}
             }
-            echo "<button id='unlike-but-$photo_id' onclick='removeLike($user_id, $photo_id)' style='background-color: grey; display: $unlike'>unlike</button>";
-            echo "<button id='like-but-$photo_id' onclick='addLike($user_id, $photo_id)' style='display: $like'>like</button>";
-            if ($row["user_id"] == $_SESSION["id"]) {
-                echo "<button class='del-but' class='del-but-$photo_id' onclick='deletePhoto($photo_id)' style='background-color: pink;'>delete</button>";
-            }
-        }
         $like_count = ($row["likes"] == null) ? 0 : $row["likes"];
         echo "<p>likes:<span id='photo-id-$photo_id'>$like_count</span></p>
-            </div>";
+            </div>"; //post wrapper
     }
-    echo "</div>";
+    echo "</div>"; //gallery wrapper
 ?>
 <?php require $_SERVER["DOCUMENT_ROOT"]."/camagru/shared/footer.php"; ?>

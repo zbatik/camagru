@@ -44,11 +44,12 @@ window.addEventListener("DOMContentLoaded",function() {
         psw      = document.getElementById("psw").value;
         psw_conf = document.getElementById("psw_conf").value;
         match    = psw == psw_conf;
-        /*
+        
         if (!match) {
             passwordError("passwords don't match");
             return ;
         }
+        /*
         if (psw.length < 7) {
             passwordError("password must be at least 6 characters");
             return ;

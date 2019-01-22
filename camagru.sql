@@ -87,7 +87,7 @@ INSERT INTO `likes` (`user_id`, `photo_id`) VALUES
 --
 
 CREATE TABLE `user` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `username` varchar(50) NOT NULL,
   `email` varchar(150) NOT NULL,
   `password` varchar(64) NOT NULL,

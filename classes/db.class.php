@@ -131,6 +131,25 @@
             return $stmt;
         }
 
+        public function SelectComments($photo_id) { 
+            $stmt = self::$pdo->prepare("SELECT username, comment
+            FROM comments
+            INNER JOIN user ON user.id=comments.user_id
+            WHERE photo_id=:photo_id
+            ORDER BY time_stamp DESC"
+            );
+            $stmt->execute(["photo_id" => $photo_id]);
+            return $stmt;
+        }
+
+        public function SelectUserPhotos($user_id) { 
+            $stmt = self::$pdo->prepare("SELECT * FROM gallery
+            WHERE user_id=:user_id
+            ORDER BY time_stamp DESC");
+            $stmt->execute(["user_id" => $user_id]);
+            return $stmt;
+        }
+
         public function GetUserInfo ($field, $value) { 
             return $this->SelectWhere('user', $field, $value);
         }

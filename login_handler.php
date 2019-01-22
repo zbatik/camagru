@@ -15,12 +15,12 @@
         } else {
 
             if ($user_info["validated"]){
-                echo 1;
                 session_start();
                 $_SESSION["username"] = $username;
                 $_SESSION["email"] = $user_info["email"];
                 $_SESSION["id"] = $user_info["id"];
                 $_SESSION["logged_on"] = 1;
+                echo 1;
             } else {
                 echo -1;
             }

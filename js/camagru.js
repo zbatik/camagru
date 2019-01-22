@@ -30,8 +30,6 @@ function PostPhoto(photo_data){
     xhttp.send(JSON.stringify(postObj));
 }
 
-
-
 function PostSignupForm(form_id, post_to) {
     PostForm(form_id, post_to, function(event) {
         if (event.target.responseText == 1) {

@@ -108,6 +108,17 @@ span.psw {
     flex-direction: row;
     width: 100%;
 }
+
+#upload-but {
+    background-color: aqua;
+}
+
+.del-but {
+    background-color: pink;
+}
+#save-but {
+    background-color: gold;
+}
 /*                   */
 /* end of file       */
 /*                   */

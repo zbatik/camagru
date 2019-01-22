@@ -1,27 +1,59 @@
 <?php
 
-require_once $_SERVER["DOCUMENT_ROOT"]."/camagru/classes/db.class.php";
+include 'database.php';
 
-$db = new DB;
-$table= "user";
-$columns = "id INT( 11 ) AUTO_INCREMENT PRIMARY KEY,
-            username VARCHAR( 50 ) NOT NULL,
-            email VARCHAR( 150 ) NOT NULL, 
-            password VARCHAR( 64 ) NOT NULL, 
-            validated tinyint(1) NOT NULL DEFAULT 0,
-            token VARCHAR( 64 ) NOT NULL";
+$conn = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
+$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 
-//echo "CREATE TABLE IF NOT EXISTS camagru.$table ($columns)";
+$conn->query("CREATE DATABASE IF NOT EXISTS $DB_NAME");
+$conn->query("use $DB_NAME");
 
-$return = $db->exec("CREATE TABLE IF NOT EXISTS camagru.$table ($columns)");
+try {
+    // ____________ USER TABLE ________________
+    $sql = "CREATE TABLE IF NOT EXISTS `user` (
+        `id` int(11) NOT NULL AUTO_INCREMENT UNIQUE,
+        `username` varchar(50) NOT NULL UNIQUE,
+        `email` varchar(150) NOT NULL UNIQUE,
+        `password` varchar(64) NOT NULL,
+        `validated` tinyint(1) NOT NULL DEFAULT '0',
+        `token` varchar(64) NOT NULL,
+        `receive_notifications` tinyint(1) NOT NULL DEFAULT '1',
+        PRIMARY KEY (id)
+      )";
+    $conn->exec($sql);
 
-/*
-if ($return) 
+    // ____________ LIKES TABLE ________________
+    $sql = "CREATE TABLE IF NOT EXISTS `likes` (
+        `id` int(11) NOT NULL AUTO_INCREMENT UNIQUE,
+        `user_id` int(11) NOT NULL,
+        `photo_id` int(11) NOT NULL,
+        PRIMARY KEY (id)
+      )";
+    $conn->exec($sql);
+
+    // ____________ GALLERY TABLE ________________
+    $sql = "CREATE TABLE IF NOT EXISTS `gallery` (
+        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `user_id` int(11) NOT NULL,
+        `time_stamp` int(11) NOT NULL,
+        `photo_data` longtext NOT NULL,
+        PRIMARY KEY (id)
+      )";
+    $conn->exec($sql);
+
+    // ____________ COMMENTS TABLE ________________
+    $sql = "CREATE TABLE `comments` (
+        `id` int(11) NOT NULL AUTO_INCREMENT UNIQUE,
+        `user_id` int(11) NOT NULL,
+        `photo_id` int(11) NOT NULL,
+        `comment` text NOT NULL,
+        `time_stamp` int(11) NOT NULL,
+        PRIMARY KEY (id)
+      )";
+    $conn->exec($sql);
+    }
+catch(PDOException $e)
 {
-    echo "Table $table - Created!<br /><br />";
+    $e->getMessage();
 }
-else 
-{ 
-    echo "Table $table not successfully created! <br /><br />";
-}*/
 ?>

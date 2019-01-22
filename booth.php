@@ -1,4 +1,6 @@
-<?php require $_SERVER["DOCUMENT_ROOT"]."/camagru/shared/header.php"; ?>
+<?php   require $_SERVER["DOCUMENT_ROOT"]."/camagru/shared/header.php"; 
+        require_once './classes/db.class.php';
+?>
 
 <script>
     window.addEventListener("DOMContentLoaded",function() {
@@ -25,7 +27,11 @@
     // cap_btn.hidden = true;
     });
     document.getElementById("capture-but").addEventListener('click', function(){
-        context.drawImage(video, 0, 0, 400, 300);
+        canvas.width = video.width;
+        canvas.height = video.height;
+        context.drawImage(video, 0, 0, 400, 300);    
+    });
+    document.getElementById("save-but").addEventListener('click', function(){
         
         currentpic = canvas.toDataURL();
         photo = document.createElement('img');
@@ -35,7 +41,23 @@
         photo.setAttribute("style", "transform: rotateY(180deg);-webkit-transform:rotateY(180deg); -moz-transform:rotateY(180deg);");
         PostPhoto(currentpic);
     });
+
+    document.getElementById('upload-but').addEventListener('change', function(e){
+
+            var reader = new FileReader();
+            reader.onload = function(event){
+                var img = new Image();
+                img.onload = function(){
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    context.drawImage(img,0,0);
+                }
+                img.src = event.target.result;
+            }
+            reader.readAsDataURL(e.target.files[0]);    
     });
+    
+});
 </script>
 
 <?php 
@@ -43,22 +65,34 @@
     {
         echo '
         <div id="upload-wrapper">
-        <video style=""id="video" width="400" height="300" src=""></video>
-        <canvas id="canvas" width="400" height="300"> </canvas>
-        <div id="overlay-wrapper">
-        <img class="overlays" src="https://cdn140.picsart.com/273126276018201.png?r1024x1024">
-        <img class="overlays" src="https://cdn130.picsart.com/257922923008212.png?r1024x1024">
-        <img class="overlays" src="https://cdn140.picsart.com/285330915029211.png?r1024x1024">
-        <img class="overlays" src="https://cdn131.picsart.com/285334351024211.png?r1024x1024">
-        <img class="overlays" src="https://cdn130.picsart.com/285330963028211.png?r1024x1024">
-        <img class="overlays" src="https://cdn131.picsart.com/285259587044211.png?r1024x1024">
-        <img class="overlays" src="https://cdn131.picsart.com/285255134024211.png?r1024x1024">
-        <img class="overlays" src="https://cdn130.picsart.com/285243888034211.png?r1024x1024">
+            <video style=""id="video" width="400" height="300" src=""></video>
+            <canvas id="canvas" width="400" height="300"> </canvas>
+            <div id="overlay-wrapper">
+                <img class="overlays" src="https://cdn140.picsart.com/273126276018201.png?r1024x1024">
+                <img class="overlays" src="https://cdn130.picsart.com/257922923008212.png?r1024x1024">
+                <img class="overlays" src="https://cdn140.picsart.com/285330915029211.png?r1024x1024">
+                <img class="overlays" src="https://cdn131.picsart.com/285334351024211.png?r1024x1024">
+                <img class="overlays" src="https://cdn130.picsart.com/285330963028211.png?r1024x1024">
+                <img class="overlays" src="https://cdn131.picsart.com/285259587044211.png?r1024x1024">
+                <img class="overlays" src="https://cdn131.picsart.com/285255134024211.png?r1024x1024">
+                <img class="overlays" src="https://cdn130.picsart.com/285243888034211.png?r1024x1024">
+            </div>
+            <img alt="" id="upload_2" style="width : 400px; position : absolute; z-index: -20;" hidden="true"src="">
+            <button id="capture-but">take photo</button>
+            
+            <label>Upload File:</label>
+            <input type="file" id="upload-but" name="upload-but"/>
+            <button id="save-but">save photo</button>
         </div>
-        <img alt="" id="upload_2" style="width : 400px; position : absolute; z-index: -20;" hidden="true"src="">
-        <button id="capture-but">take photo</button>
-        <div id="photo-reel"></div>
-        ';
+        <div id="photo-reel">';
+        
+        $db = new DB;
+        $photos = $db->SelectUserPhotos($_SESSION["id"]);
+        echo $_SESSION["id"];
+        while (($row = $photos->fetch(PDO::FETCH_ASSOC))) {
+            echo "<img src='".$row["photo_data"]."'>";
+        }
+        echo '</div>';
     } else {
         header("Location: login.php");
     }

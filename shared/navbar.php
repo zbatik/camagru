@@ -3,7 +3,7 @@
    <?php
        session_start();
        if(isset($_SESSION['logged_on'])) {
-           echo $_SESSION["username"];
+           echo htmlspecialchars($_SESSION["username"], ENT_QUOTES, 'UTF-8');
             echo '
            <div class="nav-opt"><a href="index.php" class="set">Alll the Gallery</a></div>
            <div class="nav-opt"><a href="booth.php" class="set">Photo Booth</a></div>

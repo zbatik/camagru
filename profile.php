@@ -58,6 +58,11 @@ window.addEventListener("DOMContentLoaded",function() {
 });
 </script>
 
+<?php
+$username = htmlspecialchars($_SESSION["username"], ENT_QUOTES, 'UTF-8');
+$email = htmlspecialchars($_SESSION["email"], ENT_QUOTES, 'UTF-8');
+?>
+
 <h2> My Profile </h2>
 <h3> Update My info </h3>
 
@@ -66,7 +71,7 @@ window.addEventListener("DOMContentLoaded",function() {
     
     <div id="username-msg"></div>
     <label for="username"><b>Username</b></label>
-    <input type="text" name="username" id="username" value="<?php echo $_SESSION["username"]?>" required>
+    <input type="text" name="username" id="username" value="<?php echo $username?>" required>
 
     <button type="submit" id="submit1">Change Username</button>
   </div>
@@ -77,7 +82,7 @@ window.addEventListener("DOMContentLoaded",function() {
     
     <div id="email-msg"></div>
     <label for="email"><b>Email</b></label>
-    <input type="email" name="email" id="email" value="<?php echo $_SESSION["email"]?>" required>
+    <input type="email" name="email" id="email" value="<?php echo $email?>" required>
 
     <button type="submit" id="submit2">Change Email</button>
   </div>
