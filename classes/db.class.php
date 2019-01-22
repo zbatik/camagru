@@ -132,7 +132,7 @@
         }
 
         public function SelectComments($photo_id) { 
-            $stmt = self::$pdo->prepare("SELECT username, comment
+            $stmt = self::$pdo->prepare("SELECT username, comment, email
             FROM comments
             INNER JOIN user ON user.id=comments.user_id
             WHERE photo_id=:photo_id
@@ -141,7 +141,15 @@
             $stmt->execute(["photo_id" => $photo_id]);
             return $stmt;
         }
-
+        public function QueryEmailFromPhotoID($photo_id) {
+            $stmt = self::$pdo->prepare("SELECT email, receive_notifications
+            FROM user
+            JOIN gallery ON user.id=gallery.user_id
+            WHERE photo_id=:photo_id"
+            );
+            $stmt->execute(["photo_id" => $photo_id]);
+            return $stmt;
+        }
         public function SelectUserPhotos($user_id) { 
             $stmt = self::$pdo->prepare("SELECT * FROM gallery
             WHERE user_id=:user_id
@@ -168,12 +176,17 @@
         }
 
         public function UpdateUserItem($setfield, $setval, $wherefield, $whereval) {
+            try {
             $sql = "UPDATE user SET $setfield=:setval WHERE $wherefield=:whereval";
             $stmt = self::$pdo->prepare($sql);
             $stmt->execute([
                 "setval" => $setval,
                 "whereval" => $whereval
             ]);
+                return 1;
+            } catch (PDOException $e) {
+                return 0;
+            }
         }
 
         public function UpdateEmailNotificationPreferences($user_id, $preference) {

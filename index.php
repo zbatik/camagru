@@ -105,21 +105,18 @@
         var i;
         for (i = 0; i < forms.length; i++) {
             forms[i].addEventListener("submit", function () {
-            event.preventDefault();
-            // console.log(this.id);
-            PostCommentForm(this.id , "comment_handler.php");
+            event.preventDefault();           
+            PostCommentForm(this.id, "comment_handler.php");
+            
+         // sort out the updating of the comments
             p = document.createElement('p');
             p.innerHTML = "comment added refresh to view";
-            comment_box = document.getElementById("comment-wrapper");
+            comment_box = document.getElementById(this.id);
             comment_box.insertBefore(p, comment_box.firstElementChild);
-           // send mail to commented user
-        });
-        }
-        // // document.getElementById("comment-form").addEventListener("submit", function (event) {
-        //     event.preventDefault();
-        //     PostCommentForm("comment-form", "comment_handler.php");
-        // });
-    });
+           
+        }); // end comment form listeners
+    } // end for
+    }); // end DOM loaded listener
 
 </script>
 <?php
@@ -129,11 +126,12 @@
     echo "<div id='gallery-wrapper'>";
     while (($row = $photos->fetch(PDO::FETCH_ASSOC))) {
         $photo_id = $row["id"];
+        $photo_user_id = $row["user_id"];
             echo "<div class=post-wrapper id='post-wrapper-$photo_id'>
                     <div class=photo-wrapper id='photo-wrapper-$photo_id'>
                         <img src='".$row["photo_data"]."'>
                     </div>";
-            echo "<div id='comment-wrapper'
+            echo "<div class='comment-wrapper' id='comment-wrapper-$photo_id'>
                     <p><b>Comments:</b></p>";
             $comments = $db->SelectComments($photo_id);
             while ($row = $comments->fetch(PDO::FETCH_ASSOC)) {
@@ -150,6 +148,7 @@
                         <input type='text' placeholder='Type comment' name='comment' required>
                         <input type='hidden' name='photo_id' value=$photo_id>
                         <input type='hidden' name='user_id' value=$user_id> 
+                        <input type='hidden' name='photo_user_id' value=$photo_user_id>
                         <button type='submit'>Add Comment</button>
                     </div>
                 </form>";
@@ -162,11 +161,12 @@
                 }
                 echo "<button id='unlike-but-$photo_id' onclick='removeLike($user_id, $photo_id)' style='background-color: grey; display: $unlike'>unlike</button>";
                 echo "<button id='like-but-$photo_id' onclick='addLike($user_id, $photo_id)' style='display: $like'>like</button>";
-                //if ($row["user_id"] == $_SESSION["id"]) {
+
+                if ($photo_user_id == $user_id) {
                     echo "<button class='del-but' class='del-but-$photo_id' onclick='deletePhoto($photo_id)'>delete</button>";
-                //}
+                }
             }
-        $like_count = ($row["likes"] == null) ? 0 : $row["likes"];
+        $like_count = ($row["likes"] == null) ? -1 : $row["likes"];
         echo "<p>likes:<span id='photo-id-$photo_id'>$like_count</span></p>
             </div>"; //post wrapper
     }
