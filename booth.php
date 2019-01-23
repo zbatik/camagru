@@ -1,8 +1,14 @@
 <?php   require $_SERVER["DOCUMENT_ROOT"]."/camagru/shared/header.php"; 
         require_once './classes/db.class.php';
+        header("Access-Control-Allow-Origin: *");
 ?>
 
 <script>
+
+    function AddOverlay (overlay_id) {
+
+    }
+    
     window.addEventListener("DOMContentLoaded",function() {
 
     var video = document.getElementById("video"),
@@ -26,10 +32,43 @@
     has_webcam = false;
     // cap_btn.hidden = true;
     });
+    overlay_imgs = document.querySelectorAll(".overlays")
+    for (i = 0; i < overlay_imgs.length; i++) {
+    
+        overlay_imgs[i].addEventListener('click', function(){
+        // overlay_obj = document.getElementById(this.id);
+        console.log(this.getAttribute("data-clicked"));
+        if (this.getAttribute("data-clicked") == "false")
+        {
+            overlay = document.createElement('img');
+            overlay.setAttribute("src", this.src);
+            overlay.setAttribute("class", "overlays-selected");
+            view = document.querySelector(".overlays-container");
+            video.parentNode.insertBefore(overlay, video.nextSibling);
+            
+            this.setAttribute("data-clicked", true);
+        }
+        //view.insertBefore(overlay, view.nextSibling);   
+    });
+    }
+
     document.getElementById("capture-but").addEventListener('click', function(){
         canvas.width = video.width;
         canvas.height = video.height;
-        context.drawImage(video, 0, 0, 400, 300);    
+        context.drawImage(video, 0, 0, 400, 300);
+        overlay_imgs = document.querySelectorAll(".overlays-selected");
+        for (i = 0; i < overlay_imgs.length; i++) {
+            context.drawImage(overlay_imgs[i], 0, 0, 400, 300);
+        }
+    });
+    document.getElementById("clear-but").addEventListener('click', function(){
+        overlay_imgs = document.querySelectorAll(".overlays-selected");
+        for (i = 0; i < overlay_imgs.length; i++) {
+            overlay_imgs[i].remove();
+        }
+        clickers = document.querySelectorAll(".overlays");
+        for (i = 0; i < clickers.length; i++)
+            clickers[i].setAttribute("data-clicked", "false");
     });
     document.getElementById("save-but").addEventListener('click', function(){
         
@@ -65,17 +104,21 @@
     {
         echo '
         <div id="upload-wrapper">
+            
+            <div class="overlays-container">
             <video style=""id="video" width="400" height="300" src=""></video>
-            <canvas id="canvas" width="400" height="300"> </canvas>
+                
+            </div>
+            <canvas id="canvas" width="400" height="300" > </canvas>
             <div id="overlay-wrapper">
-                <img class="overlays" src="https://cdn140.picsart.com/273126276018201.png?r1024x1024">
-                <img class="overlays" src="https://cdn130.picsart.com/257922923008212.png?r1024x1024">
-                <img class="overlays" src="https://cdn140.picsart.com/285330915029211.png?r1024x1024">
-                <img class="overlays" src="https://cdn131.picsart.com/285334351024211.png?r1024x1024">
-                <img class="overlays" src="https://cdn130.picsart.com/285330963028211.png?r1024x1024">
-                <img class="overlays" src="https://cdn131.picsart.com/285259587044211.png?r1024x1024">
-                <img class="overlays" src="https://cdn131.picsart.com/285255134024211.png?r1024x1024">
-                <img class="overlays" src="https://cdn130.picsart.com/285243888034211.png?r1024x1024">
+                <img class="overlays" data-clicked="false" src="./img/273126276018201.png">
+                <img class="overlays" data-clicked="false" src="./img/257922923008212.png">
+                <img class="overlays" data-clicked="false" src="./img/285330915029211.png">
+                <img class="overlays" data-clicked="false" src="./img/285334351024211.png">
+                <img class="overlays" data-clicked="false" src="./img/285330963028211.png">
+                <img class="overlays" data-clicked="false" src="./img/285259587044211.png">
+                <img class="overlays" data-clicked="false" src="./img/285255134024211.png">
+                <img class="overlays" data-clicked="false" src="./img/285243888034211.png">
             </div>
             <img alt="" id="upload_2" style="width : 400px; position : absolute; z-index: -20;" hidden="true"src="">
             <button id="capture-but">take photo</button>
@@ -83,6 +126,7 @@
             <label>Upload File:</label>
             <input type="file" id="upload-but" name="upload-but"/>
             <button id="save-but">save photo</button>
+            <button id="clear-but">clear overlays</button>
         </div>
         <div id="photo-reel">';
         

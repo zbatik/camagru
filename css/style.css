@@ -102,6 +102,22 @@ span.psw {
 .overlays {
     height: 120px;
 }
+video {
+    position: absolute;
+}
+.overlays-container
+{
+    position: relative;
+    height: 300px;
+    width: 400px;
+}
+
+.overlays-selected {
+    position: absolute;
+    height: inherit;
+    width: inherit;
+    
+}
 
 #overlay-wrapper {
     display: flex;
@@ -118,6 +134,9 @@ span.psw {
 }
 #save-but {
     background-color: gold;
+}
+#clear-but {
+    background-color: bisque;
 }
 /*                   */
 /* end of file       */

@@ -75,6 +75,13 @@
                 'time_stamp' => $time_stamp
             ]);
         }
+        
+        public function CountPosts () {
+            $stmt = self::$pdo->prepare("SELECT count(*) as total FROM gallery");
+            $stmt->execute();
+            $ret = $stmt->fetch();
+            return $ret["total"];
+        }
 
         public function AddLike ($photo_id, $user_id) {
             $stmt = self::$pdo->prepare("INSERT INTO likes (photo_id, user_id)
@@ -117,18 +124,26 @@
             $stmt3->execute(["photo_id" => $photo_id]);
         }
 
-        public function SelectAllPhotos() { 
+        public function SelectAllPhotos($off) { 
+           
             $stmt = self::$pdo->prepare("SELECT * FROM gallery
-            LEFT JOIN 
-            (SELECT photo_id, COUNT(photo_id) AS likes
-            FROM likes 
-            GROUP BY photo_id ) AS COUNTED
-            ON
-            COUNTED.photo_id = gallery.id
-            ORDER BY time_stamp DESC");
-            $stmt->execute();
-            // $ret = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $stmt;
+                    ORDER BY time_stamp DESC 
+                    LIMIT 5 
+                    OFFSET :off");
+           $stmt->execute(["off" => $off]);
+           return $stmt;
+           // OG attempt
+            // $stmt = self::$pdo->prepare("SELECT * FROM gallery
+            // LEFT JOIN 
+            // (SELECT photo_id, COUNT(photo_id) AS likes
+            // FROM likes 
+            // GROUP BY photo_id ) AS COUNTED
+            // ON
+            // COUNTED.photo_id = gallery.id
+            // ORDER BY time_stamp DESC");
+            // $stmt->execute();
+            // // $ret = $stmt->fetch(PDO::FETCH_ASSOC);
+            // return $stmt;
         }
 
         public function SelectComments($photo_id) { 

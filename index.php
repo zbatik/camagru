@@ -120,8 +120,12 @@
 
 </script>
 <?php
+    if (!isset($_GET["page"])){
+        $_GET["page"] = 0;
+    }
     $db = new DB;
-    $photos = $db->SelectAllPhotos();
+    $num_posts = $db->CountPosts($_GET["page"]);
+    $photos = $db->SelectAllPhotos($_GET["page"] * 5);
     $user_id = $_SESSION["id"];
     echo "<div id='gallery-wrapper'>";
     while (($row = $photos->fetch(PDO::FETCH_ASSOC))) {
@@ -166,10 +170,17 @@
                     echo "<button class='del-but' class='del-but-$photo_id' onclick='deletePhoto($photo_id)'>delete</button>";
                 }
             }
-        $like_count = ($row["likes"] == null) ? -1 : $row["likes"];
-        echo "<p>likes:<span id='photo-id-$photo_id'>$like_count</span></p>
-            </div>"; //post wrapper
+       // $like_count = ($row["likes"] == null) ? -1 : $row["likes"];
+       // echo "<p>likes:<span id='photo-id-$photo_id'>$like_count</span></p>
+          echo   "</div>"; //post wrapper
     }
     echo "</div>"; //gallery wrapper
+
+    echo "<p>Select Page</p>";
+    echo "<form action='index.php' method='get'>";
+    for ($i = 0; $i < $num_posts / 5; $i++) {
+        echo "<button name='page' type='submit' value='$i'>Go to page $i</button>";
+    }
+    echo "</form>";
 ?>
 <?php require $_SERVER["DOCUMENT_ROOT"]."/camagru/shared/footer.php"; ?>
