@@ -10,12 +10,13 @@ function PostForm(form_id, post_to, load_function) {
     xhttp.send(form_data);
 }
 
-function PostPhoto(photo_data){
+function PostPhoto(photo_data, overlay_arr){
     var xhttp = new XMLHttpRequest();
 
     var postObj = {
         action: "post_photo",
-        photo_data : photo_data
+        photo_data: photo_data,
+        overlay_arr: overlay_arr
     }
     xhttp.open("POST", "gallery_handler.php");
     xhttp.setRequestHeader("Content-type", "application/json");
@@ -24,6 +25,7 @@ function PostPhoto(photo_data){
     xhttp.onreadystatechange = function(data) {
         if (this.readyState == 4 && this.status == 200) {
             console.log("photo posted");
+            console.log(event.target.responseText);
             return ;
         } 
     };

@@ -4,16 +4,14 @@
 ?>
 
 <script>
-
-    function AddOverlay (overlay_id) {
-
-    }
     
     window.addEventListener("DOMContentLoaded",function() {
 
     var video = document.getElementById("video"),
     canvas = document.getElementById("canvas"),
     context = canvas.getContext("2d"),
+    canvas_hidden = document.getElementById("canvas-hidden"),
+    context_hidden = canvas_hidden.getContext("2d"),
 
     vendorUrl = window.URL || window.webkitURL;
 
@@ -43,12 +41,9 @@
             overlay = document.createElement('img');
             overlay.setAttribute("src", this.src);
             overlay.setAttribute("class", "overlays-selected");
-            view = document.querySelector(".overlays-container");
             video.parentNode.insertBefore(overlay, video.nextSibling);
-            
             this.setAttribute("data-clicked", true);
         }
-        //view.insertBefore(overlay, view.nextSibling);   
     });
     }
 
@@ -56,29 +51,38 @@
         canvas.width = video.width;
         canvas.height = video.height;
         context.drawImage(video, 0, 0, 400, 300);
+        canvas_hidden.width = video.width;
+        canvas_hidden.height = video.height;
+        context_hidden.drawImage(video, 0, 0, 400, 300);
         overlay_imgs = document.querySelectorAll(".overlays-selected");
         for (i = 0; i < overlay_imgs.length; i++) {
             context.drawImage(overlay_imgs[i], 0, 0, 400, 300);
         }
     });
     document.getElementById("clear-but").addEventListener('click', function(){
-        overlay_imgs = document.querySelectorAll(".overlays-selected");
-        for (i = 0; i < overlay_imgs.length; i++) {
-            overlay_imgs[i].remove();
+        sel_overlay_imgs = document.querySelectorAll(".overlays-selected");
+        for (i = 0; i < sel_overlay_imgs.length; i++) {
+            sel_overlay_imgs[i].remove();
         }
         clickers = document.querySelectorAll(".overlays");
         for (i = 0; i < clickers.length; i++)
             clickers[i].setAttribute("data-clicked", "false");
     });
     document.getElementById("save-but").addEventListener('click', function(){
-        
         currentpic = canvas.toDataURL();
         photo = document.createElement('img');
         photo.setAttribute("src", currentpic);
         camera_roll = document.getElementById("photo-reel");
         camera_roll.insertBefore(photo, camera_roll.firstElementChild);
         photo.setAttribute("style", "transform: rotateY(180deg);-webkit-transform:rotateY(180deg); -moz-transform:rotateY(180deg);");
-        PostPhoto(currentpic);
+        // build up array of overlays
+        var overlay_src = new Array
+        sel_overlay_imgs = document.querySelectorAll(".overlays-selected");
+        for (i = 0; i < sel_overlay_imgs.length; i++) {
+            overlay_src[i] = sel_overlay_imgs[i].src;
+        }
+        console.log(overlay_src);
+        PostPhoto(canvas_hidden.toDataURL(), overlay_src);
     });
 
     document.getElementById('upload-but').addEventListener('change', function(e){
@@ -107,9 +111,9 @@
             
             <div class="overlays-container">
             <video style=""id="video" width="400" height="300" src=""></video>
-                
             </div>
             <canvas id="canvas" width="400" height="300" > </canvas>
+            <canvas id="canvas-hidden" width="400" height="300" style="display: none"> </canvas>
             <div id="overlay-wrapper">
                 <img class="overlays" data-clicked="false" src="./img/273126276018201.png">
                 <img class="overlays" data-clicked="false" src="./img/257922923008212.png">
