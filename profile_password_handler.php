@@ -9,7 +9,7 @@
             if ($db_hash == null)
             {
                 echo 0;
-            }  else if (0 == password_verify($_POST["psw"], $db_hash)) {
+            }  else if (0 == password_verify($_POST["psw_old"], $db_hash)) {
                 echo 0;
             } else {
                 echo 1;

@@ -49,7 +49,7 @@ window.addEventListener("DOMContentLoaded",function() {
             passwordError("passwords don't match");
             return ;
         }
-        if (psw.length < 7) {
+        if (psw.length < 6) {
             passwordError("password must be at least 6 characters");
             return ;
         }

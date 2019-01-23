@@ -7,11 +7,14 @@
     
     window.addEventListener("DOMContentLoaded",function() {
 
-    var video = document.getElementById("video"),
-    canvas = document.getElementById("canvas"),
-    context = canvas.getContext("2d"),
-    canvas_hidden = document.getElementById("canvas-hidden"),
-    context_hidden = canvas_hidden.getContext("2d"),
+    var video = document.getElementById("video")
+    if (video != null) {
+    var canvas = document.getElementById("canvas")
+    
+    var context = canvas.getContext("2d")
+    
+    var canvas_hidden = document.getElementById("canvas-hidden")
+    var context_hidden = canvas_hidden.getContext("2d")
 
     vendorUrl = window.URL || window.webkitURL;
 
@@ -99,8 +102,9 @@
             }
             reader.readAsDataURL(e.target.files[0]);    
     });
-    
+    }    
 });
+
 </script>
 
 <?php 

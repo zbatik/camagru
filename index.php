@@ -22,13 +22,13 @@
         };
         xhttp.send(JSON.stringify(postObj));
         // ADD TO THE LIKE COUNT
-        var count = document.getElementById("photo-id-" + photo_id);
-        if (count.innerHTML == "")
-        {
-            count.innerHTML = 1;
-        } else {
-            count.innerHTML = parseInt(count.innerHTML) + 1;
-        }
+        // var count = document.getElementById("photo-id-" + photo_id);
+        // if (count.innerHTML == "")
+        // {
+        //     count.innerHTML = 1;
+        // } else {
+        //     count.innerHTML = parseInt(count.innerHTML) + 1;
+        // }
         var likebut = document.getElementById("like-but-" + photo_id);
         var unlikebut = document.getElementById("unlike-but-" + photo_id);
         likebut.style.display = "none";
@@ -60,8 +60,8 @@
         unlikebut.style.display = "none";
 
 
-        var count = document.getElementById("photo-id-" + photo_id);
-        count.innerHTML = parseInt(count.innerHTML) - 1;
+        // var count = document.getElementById("photo-id-" + photo_id);
+        // count.innerHTML = parseInt(count.innerHTML) - 1;
  
         //console.log("like removed");
     }
@@ -176,7 +176,6 @@
     }
     echo "</div>"; //gallery wrapper
 
-    echo "<p>Select Page</p>";
     echo "<form action='index.php' method='get'>";
     for ($i = 0; $i < $num_posts / 5; $i++) {
         echo "<button name='page' type='submit' value='$i'>Go to page $i</button>";
