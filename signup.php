@@ -12,8 +12,8 @@ function CheckDuplicate (field){
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
-            console.log(field+"-msg");
+            //console.log(this.responseText);
+            //console.log(field+"-msg");
             msg = document.getElementById(field+"-msg");
             if (this.responseText == 1) {
                 msg.innerHTML = obj.value + " is a taken " + field;
@@ -28,7 +28,7 @@ function CheckDuplicate (field){
     };
     xhttp.open("POST", "signup_handler.php");
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    console.log("check_duplicate=1&duplicate_type="+field+"&look_for="+obj.value);
+    //console.log("check_duplicate=1&duplicate_type="+field+"&look_for="+obj.value);
     xhttp.send("check_duplicate=1&duplicate_type="+field+"&look_for="+obj.value);
 }
 
@@ -49,7 +49,6 @@ window.addEventListener("DOMContentLoaded",function() {
             passwordError("passwords don't match");
             return ;
         }
-        /*
         if (psw.length < 7) {
             passwordError("password must be at least 6 characters");
             return ;
@@ -58,7 +57,6 @@ window.addEventListener("DOMContentLoaded",function() {
             passwordError("password must be at least 1 number"); 
             return ;
         }
-        */
         if ("red" == document.getElementById("username-msg").style.backgroundColor ||
             "red" == document.getElementById("email-msg").style.backgroundColor) {
             alert("make sure you have selected a unique username and/or password")

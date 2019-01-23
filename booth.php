@@ -35,7 +35,7 @@
     
         overlay_imgs[i].addEventListener('click', function(){
         // overlay_obj = document.getElementById(this.id);
-        console.log(this.getAttribute("data-clicked"));
+        //console.log(this.getAttribute("data-clicked"));
         if (this.getAttribute("data-clicked") == "false")
         {
             overlay = document.createElement('img');
@@ -81,7 +81,7 @@
         for (i = 0; i < sel_overlay_imgs.length; i++) {
             overlay_src[i] = sel_overlay_imgs[i].src;
         }
-        console.log(overlay_src);
+        //console.log(overlay_src);
         PostPhoto(canvas_hidden.toDataURL(), overlay_src);
     });
 

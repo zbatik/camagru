@@ -16,7 +16,7 @@
         xhttp.setRequestHeader("Content-type", "application/json");
         xhttp.onreadystatechange = function(event) {
             if (this.readyState == 4 && this.status == 200) {
-                console.log('->'+this.responseText);
+                //console.log('->'+this.responseText);
                 return ;
             } 
         };
@@ -33,7 +33,7 @@
         var unlikebut = document.getElementById("unlike-but-" + photo_id);
         likebut.style.display = "none";
         unlikebut.style.display = "block";
-        console.log("like added");
+        //console.log("like added");
     }
 
     function removeLike(user_id, photo_id) {
@@ -48,7 +48,7 @@
         xhttp.setRequestHeader("Content-type", "application/json");
         xhttp.onreadystatechange = function(data) {
             if (this.readyState == 4 && this.status == 200) {
-                console.log('del like'+this.responseText);
+                //console.log('del like'+this.responseText);
                 return ;
             } 
         };
@@ -63,7 +63,7 @@
         var count = document.getElementById("photo-id-" + photo_id);
         count.innerHTML = parseInt(count.innerHTML) - 1;
  
-        console.log("like removed");
+        //console.log("like removed");
     }
     
     function PostCommentForm(form_id, post_to) {
@@ -71,7 +71,7 @@
             if (event.target.responseText == 1) {
                 
             } else {
-                console.log(event.target.responseText);
+                //console.log(event.target.responseText);
             }
         });
     }
@@ -85,11 +85,11 @@
         }
         xhttp.open("POST", "gallery_handler.php");
         xhttp.setRequestHeader("Content-type", "application/json");
-        console.log(postObj);
+        //console.log(postObj);
         
         xhttp.onreadystatechange = function(data) {
             if (this.readyState == 4 && this.status == 200) {
-                console.log("photo deleted");
+                //console.log("photo deleted");
                 return ;
             } 
         };

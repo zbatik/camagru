@@ -20,12 +20,12 @@ function PostPhoto(photo_data, overlay_arr){
     }
     xhttp.open("POST", "gallery_handler.php");
     xhttp.setRequestHeader("Content-type", "application/json");
-    console.log(postObj);
+    //console.log(postObj);
     
     xhttp.onreadystatechange = function(data) {
         if (this.readyState == 4 && this.status == 200) {
-            console.log("photo posted");
-            console.log(event.target.responseText);
+            //console.log("photo posted");
+            //console.log(event.target.responseText);
             return ;
         } 
     };

@@ -14,7 +14,7 @@ function updateSubscription(user_id, change_to)
         xhttp.setRequestHeader("Content-type", "application/json");
         xhttp.onreadystatechange = function(event) {
             if (this.readyState == 4 && this.status == 200) {
-                console.log("notifications preferences updated" + event.target.responseText);
+                //console.log("notifications preferences updated" + event.target.responseText);
                 return ;
             } 
         };
@@ -22,7 +22,7 @@ function updateSubscription(user_id, change_to)
 }
 
 function subscribe(user_id) {
-  console.log("subscribed");
+  //console.log("subscribed");
   var unsub = document.getElementById("unsubscribe-but");
   var sub = document.getElementById("subscribe-but");
   unsub.style.display = "block";
@@ -31,7 +31,7 @@ function subscribe(user_id) {
 }
 
 function unsubscribe(user_id) {
-  console.log("unsubscribed");
+  //console.log("unsubscribed");
   var unsub = document.getElementById("unsubscribe-but");
   var sub = document.getElementById("subscribe-but");
   unsub.style.display = "none";
