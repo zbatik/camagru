@@ -71,6 +71,7 @@ function PostUpdateForm(form_id, post_to) {
         if (event.target.responseText == 1) {
             window.location.href = "http://localhost:8080/camagru/profile.php";
         } else {
+            //console.log(event.target.responseText);
             alert("update falied");
         }
     });

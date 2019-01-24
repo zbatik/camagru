@@ -97,6 +97,9 @@
                     canvas.width = img.width;
                     canvas.height = img.height;
                     context.drawImage(img,0,0);
+                    canvas_hidden.width = img.width;
+                    canvas_hidden.height = img.height;
+                    context_hidden.drawImage(img, 0, 0);
                 }
                 img.src = event.target.result;
             }

@@ -5,7 +5,7 @@ include 'database.php';
 $conn = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 
-$conn->query("CREATE DATABASE IF NOT EXISTS $DB_NAME");
+$conn->query("CREATE DATABASE IF NOT EXISTS $DB_NAME DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
 $conn->query("use $DB_NAME");
 
 try {

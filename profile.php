@@ -53,6 +53,15 @@ window.addEventListener("DOMContentLoaded",function() {
         var pswform = "profile-password-form";
         document.getElementById(pswform).addEventListener("submit", function (event) {
             event.preventDefault();
+            psw = document.getElementById("new_psw").value;
+            if (psw.length < 6) {
+                alert("password must be at least 6 characters");
+                return ;
+            }
+            if (!/\d/.test(psw)) {
+                alert("password must be at least 1 number"); 
+                return ;
+            }
             PostUpdateForm(pswform, "profile_password_handler.php");
         });
 });
@@ -97,8 +106,8 @@ $email = htmlspecialchars($_SESSION["email"], ENT_QUOTES, 'UTF-8');
     <label for="new_psw"><b>New Password</b></label>
     <input type="password" name="new_psw" id="new_psw" required>
 
-    <label for="new_psw_conf"><b>Confirm New Password</b></label>
-    <input type="password" name="new_psw_conf" id="new_psw_conf" required>
+    <!-- <label for="new_psw_conf"><b>Confirm New Password</b></label>
+    <input type="password" name="new_psw_conf" id="new_psw_conf" required> -->
 
     <button type="submit" id="submit3">Change Password</button>
   </div>

@@ -6,7 +6,7 @@
     {
         session_start();
         $db = new DB;
-        $success = $db->UpdateUserItem("username", $_POST["username"], "email", $_SESSION["email"]);
+        $success = $db->UpdateUserItem("username", $_POST["username"], "id", $_SESSION["id"]);
         if ($success) { 
             $_SESSION["username"] = $_POST["username"];
             echo 1;
